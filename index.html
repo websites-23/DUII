@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darul Ulum Islamic Institute</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="Logo.png" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3f2305',   // Deep Brown
+                        secondary: '#c49a6c', // Gold
+                        cream: '#f8f4e1',     // Cream
+                        surface: '#ffffff',
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    backgroundImage: {
+                        'pattern-islamic': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233f2305' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(63, 35, 5, 0.1)',
+                        'gold-glow': '0 4px 20px rgba(196, 154, 108, 0.3)',
+                    },
+                    screens: {
+                        'xs': '475px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #f8f4e1;
+            color: #3f2305;
+            overflow-x: hidden;
+        }
+
+        /* =========================================
+           CUSTOM SCROLLBAR & SELECTION
+           ========================================= */
+        
+        /* Width */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f8f4e1; /* Cream background */
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #3f2305; /* Primary Brown */
+            border-radius: 10px;
+            border: 3px solid #f8f4e1; /* Creates padding effect */
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c49a6c; /* Secondary Gold */
+        }
+
+        /* Custom Text Selection */
+        ::selection {
+            background-color: #c49a6c; /* Gold background */
+            color: #3f2305; /* Brown text */
+        }
+
+        /* Nav Link Active State */
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #c49a6c;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active-link::after { width: 100%; }
+
+        /* Custom Radio Button Styling */
+        input[type="radio"]:checked + div {
+            border-color: #3f2305;
+            background-color: #f8f4e1;
+        }
+        input[type="radio"]:checked + div .radio-dot {
+            transform: scale(1);
+        }
+
+        /* Section Visibility Logic */
+        section {
+            display: none;
+            opacity: 0;
+        }
+        section.active {
+            display: block;
+            animation: fadeInSection 0.6s ease-out forwards;
+        }
+        @keyframes fadeInSection {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Delay Utilities */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Navigation (z-50) -->
+    <header class="fixed w-full top-0 z-50 bg-cream/95 backdrop-blur-md shadow-md border-b border-primary/10" id="navbar">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-12">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <!-- Logo -->
+                <div class="flex items-center cursor-pointer group" onclick="navigateTo('home')">
+                    <img src="Logo.png" alt="Darul Ulum Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain shadow-sm group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null; this.src='https://placehold.co/100x100/3f2305/c49a6c?text=Logo'">
+                    <div class="ml-3 flex flex-col">
+                        <span class="font-serif font-bold text-lg md:text-xl text-primary tracking-wide">Darul Ulum</span>
+                        <span class="text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-secondary font-bold">Islamic Institute</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex space-x-8 items-center">
+                    <button onclick="navigateTo('home')" class="nav-link text-primary/80 hover:text-primary font-bold text-xs uppercase tracking-widest">Home</button>
+                    <button onclick="navigateTo('about')" class="nav-link text-primary/80 hover:text-primary font-bold text-xs uppercase tracking-widest">About</button>
+                    <button onclick="navigateTo('courses')" class="nav-link text-primary/80 hover:text-primary font-bold text-xs uppercase tracking-widest">Academics</button>
+                    <button onclick="navigateTo('admissions')" class="nav-link text-primary/80 hover:text-primary font-bold text-xs uppercase tracking-widest">Admissions</button>
+                    <button onclick="navigateTo('gallery')" class="nav-link text-primary/80 hover:text-primary font-bold text-xs uppercase tracking-widest">Gallery</button>
+                    <button onclick="navigateTo('contact')" class="px-6 py-2 bg-primary text-cream font-bold text-xs uppercase tracking-widest rounded hover:bg-secondary hover:text-primary transition-colors shadow-lg">Contact</button>
+                </nav>
+
+                <!-- Mobile Toggle (Improved Hit Area) -->
+                <button id="mobile-menu-btn" class="lg:hidden text-primary p-4 -mr-4 focus:outline-none z-50 active:scale-95 transition-transform cursor-pointer">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Corrected Positioning) -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-cream border-t border-primary/10 fixed inset-0 top-16 md:top-20 z-40 overflow-y-auto w-full h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)]">
+            <div class="px-6 py-8 space-y-4 flex flex-col items-center pb-20">
+                <button onclick="navigateTo('home')" class="text-xl font-serif text-primary hover:text-secondary w-full text-center py-4 border-b border-primary/5 active:bg-primary/5 transition-colors">Home</button>
+                <button onclick="navigateTo('about')" class="text-xl font-serif text-primary hover:text-secondary w-full text-center py-4 border-b border-primary/5 active:bg-primary/5 transition-colors">About Us</button>
+                <button onclick="navigateTo('courses')" class="text-xl font-serif text-primary hover:text-secondary w-full text-center py-4 border-b border-primary/5 active:bg-primary/5 transition-colors">Academics</button>
+                <button onclick="navigateTo('admissions')" class="text-xl font-serif text-primary hover:text-secondary w-full text-center py-4 border-b border-primary/5 active:bg-primary/5 transition-colors">Admissions</button>
+                <button onclick="navigateTo('gallery')" class="text-xl font-serif text-primary hover:text-secondary w-full text-center py-4 border-b border-primary/5 active:bg-primary/5 transition-colors">Gallery</button>
+                <button onclick="navigateTo('contact')" class="text-xl font-serif text-primary hover:text-secondary w-full text-center py-4 active:bg-primary/5 transition-colors">Contact</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-16 md:pt-20">
+
+        <!-- ================= HOME ================= -->
+        <section id="home" class="active relative bg-cream overflow-hidden">
+            <!-- Decorative Background Pattern -->
+            <div class="absolute inset-0 bg-pattern-islamic opacity-5 pointer-events-none"></div>
+            
+            <div class="container mx-auto px-4 sm:px-6 lg:px-12 pt-8 md:pt-12 pb-16 md:pb-20">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
+                    
+                    <!-- Left: Typography -->
+                    <div class="lg:w-1/2 text-center lg:text-left z-10 reveal w-full">
+                        <div class="inline-flex items-center gap-2 mb-4 md:mb-6 px-4 py-1.5 rounded-full border border-secondary/30 bg-white/50 backdrop-blur-sm">
+                            <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-primary">Admissions 2026 Open</span>
+                        </div>
+                        
+                        <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-tight md:leading-[1.1] mb-4 md:mb-6">
+                            Firm in <span class="text-secondary italic">Faith</span>, <br>
+                            Ready for the <span class="text-secondary italic">Future</span>.
+                        </h1>
+                        
+                        <p class="text-base md:text-lg text-primary/80 leading-relaxed mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0 font-light">
+                            A trusted institution harmonizing religious education with general academic excellence. We nurture hearts, minds, and character.
+                        </p>
+
+                        <div class="flex flex-col xs:flex-row gap-4 justify-center lg:justify-start">
+                            <button onclick="navigateTo('admissions')" class="px-8 py-3.5 bg-primary text-cream font-bold text-sm uppercase tracking-widest rounded-lg shadow-lg hover:bg-secondary hover:text-primary transition-all hover:-translate-y-1">
+                                Apply Online
+                            </button>
+                            <button onclick="navigateTo('courses')" class="px-8 py-3.5 bg-transparent border border-primary/20 text-primary font-bold text-sm uppercase tracking-widest rounded-lg hover:bg-white hover:border-white transition-all">
+                                Explore Curriculum
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Arch Visual -->
+                    <div class="lg:w-1/2 relative w-full reveal delay-200 mt-8 lg:mt-0">
+                        <!-- Main Image Container -->
+                        <div class="relative z-10 mx-auto max-w-md lg:max-w-full">
+                            <!-- Arch Shape -->
+                            <div class="rounded-t-[10rem] md:rounded-t-[15rem] rounded-b-3xl overflow-hidden shadow-2xl border-4 border-white h-[350px] sm:h-[450px] lg:h-[600px] relative group">
+                                <img src="Home.jpg" 
+                                     alt="Institute Interior" 
+                                     class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                     onerror="this.src='https://placehold.co/800x1000/3f2305/c49a6c?text=Darul+Ulum'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-60"></div>
+                            </div>
+
+                            <!-- Decorative Border Outline (Offset) -->
+                            <div class="absolute inset-0 rounded-t-[10rem] md:rounded-t-[15rem] rounded-b-3xl border-2 border-secondary/30 top-4 left-4 -z-10 h-full w-full hidden md:block"></div>
+                        </div>
+
+                        <!-- Floating Stats Card -->
+                        <div class="relative md:absolute mt-[-30px] md:mt-0 md:-bottom-12 md:bottom-8 left-1/2 -translate-x-1/2 w-[95%] sm:w-[80%] z-20">
+                            <div class="bg-white/95 backdrop-blur shadow-soft rounded-xl p-4 md:p-6 flex justify-between items-center text-center divide-x divide-primary/10 border-b-4 border-secondary">
+                                <div class="flex-1 px-1">
+                                    <h3 class="font-serif text-xl md:text-3xl font-bold text-primary">180+</h3>
+                                    <p class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-secondary">Students</p>
+                                </div>
+                                <div class="flex-1 px-1">
+                                    <h3 class="font-serif text-xl md:text-3xl font-bold text-primary">25+</h3>
+                                    <p class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-secondary">Faculty</p>
+                                </div>
+                                <div class="flex-1 px-1">
+                                    <h3 class="font-serif text-xl md:text-3xl font-bold text-primary">6+</h3>
+                                    <p class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-secondary">Years</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Values Section (Integrated) -->
+            <div class="bg-white py-16 md:py-24 relative mt-8 md:mt-0">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-12">
+                     <div class="text-center mb-10 md:mb-16 reveal">
+                        <h2 class="font-serif text-3xl md:text-4xl font-bold text-primary mb-3">Our Core Values</h2>
+                        <div class="w-16 h-1 bg-secondary mx-auto rounded-full"></div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+                        <!-- Card 1 -->
+                        <div class="group p-6 md:p-8 rounded-2xl bg-cream border border-transparent hover:border-secondary/20 transition-all hover:shadow-lg reveal cursor-default">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 md:mb-6 text-xl md:text-2xl text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-book-quran"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold text-primary mb-2 md:mb-3">Authentic Ilm</h3>
+                            <p class="text-primary/70 leading-relaxed text-sm">
+                                Deeply rooted in the methodology of the Ahlus Sunnah wal Jama'ah, preserving the purity of knowledge.
+                            </p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="group p-6 md:p-8 rounded-2xl bg-cream border border-transparent hover:border-secondary/20 transition-all hover:shadow-lg reveal delay-100 cursor-default">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 md:mb-6 text-xl md:text-2xl text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold text-primary mb-2 md:mb-3">Balanced Education</h3>
+                            <p class="text-primary/70 leading-relaxed text-sm">
+                                A unique curriculum integrating standard national education alongside Hifz and Islamic studies.
+                            </p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="group p-6 md:p-8 rounded-2xl bg-cream border border-transparent hover:border-secondary/20 transition-all hover:shadow-lg reveal delay-200 cursor-default">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 md:mb-6 text-xl md:text-2xl text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
+                                <i class="fa-solid fa-hands-holding-child"></i>
+                            </div>
+                            <h3 class="font-serif text-xl md:text-2xl font-bold text-primary mb-2 md:mb-3">Moral Tarbiyah</h3>
+                            <p class="text-primary/70 leading-relaxed text-sm">
+                                Focusing on character building, adab, and spiritual refinement to nurture future leaders.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT ================= -->
+        <section id="about">
+            <div class="py-16 md:py-20 bg-white">
+                <div class="container mx-auto px-4 sm:px-6">
+                    <div class="flex flex-col lg:flex-row items-center gap-12">
+                        <div class="lg:w-1/2 relative reveal w-full">
+                            <div class="absolute -top-4 -left-4 w-full h-full border-2 border-secondary/30 z-0"></div>
+                            <img src="https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&q=80&w=800" 
+                                 class="relative z-10 w-full h-[300px] md:h-[400px] object-cover shadow-xl"
+                                 alt="About"
+                                 onerror="this.src='https://placehold.co/800x600/3f2305/c49a6c?text=About+Us'">
+                        </div>
+                        <div class="lg:w-1/2 reveal delay-100 w-full text-center lg:text-left">
+                            <h4 class="text-secondary font-bold uppercase tracking-widest text-xs mb-2">Since 2019</h4>
+                            <h2 class="font-serif text-3xl md:text-4xl font-bold text-primary mb-4 md:mb-6">A Legacy of Learning</h2>
+                            <p class="text-primary/80 leading-relaxed mb-6">
+                                Darul Ulum Islamic Institute was founded with a singular vision: to create a sanctuary where the light of the Quran meets the clarity of modern thought. We believe that true education transforms the heart as much as it informs the mind.
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 text-left">
+                                <div class="p-4 bg-cream border-l-4 border-primary">
+                                    <h5 class="font-bold text-primary">Our Vision</h5>
+                                    <p class="text-sm text-primary/70">To be a beacon of guidance.</p>
+                                </div>
+                                <div class="p-4 bg-cream border-l-4 border-secondary">
+                                    <h5 class="font-bold text-primary">Our Mission</h5>
+                                    <p class="text-sm text-primary/70">Nurturing faith and intellect.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= COURSES ================= -->
+        <section id="courses">
+            <div class="py-16 md:py-20 bg-cream">
+                <div class="container mx-auto px-4 sm:px-6">
+                    <div class="text-center max-w-2xl mx-auto mb-10 md:mb-16 reveal">
+                        <h2 class="font-serif text-3xl md:text-4xl font-bold text-primary mb-4">Academic Programs</h2>
+                        <p class="text-primary/70">Comprehensive education catering to all stages of development.</p>
+                    </div>
+
+                    <!-- General -->
+                    <div class="mb-12 md:mb-16 reveal">
+                        <h3 class="text-xl md:text-2xl font-serif font-bold text-primary border-b border-primary/10 pb-4 mb-6 md:mb-8 text-center md:text-left">General Studies</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+                            <!-- KG -->
+                            <div class="bg-white p-4 md:p-6 text-center border border-transparent hover:border-secondary shadow-sm hover:shadow-md transition-all rounded group cursor-default">
+                                <span class="block text-2xl md:text-3xl font-bold text-primary/10 group-hover:text-secondary transition-colors">KG</span>
+                                <span class="font-bold text-primary text-xs md:text-sm">Kindergarten</span>
+                            </div>
+                            <!-- Classes 1-9 -->
+                            <script>
+                                for(let i=1; i<=9; i++) {
+                                    document.write(`
+                                    <div class="bg-white p-4 md:p-6 text-center border border-transparent hover:border-secondary shadow-sm hover:shadow-md transition-all rounded group cursor-default">
+                                        <span class="block text-2xl md:text-3xl font-bold text-primary/10 group-hover:text-secondary transition-colors">0${i}</span>
+                                        <span class="font-bold text-primary text-xs md:text-sm">Class ${i}</span>
+                                    </div>`);
+                                }
+                            </script>
+                        </div>
+                    </div>
+
+                    <!-- Islamic -->
+                    <div class="reveal delay-100">
+                        <h3 class="text-xl md:text-2xl font-serif font-bold text-primary border-b border-primary/10 pb-4 mb-6 md:mb-8 text-center md:text-left">Islamic Studies</h3>
+                        <div class="grid md:grid-cols-3 gap-4 md:gap-6">
+                            <div class="bg-white p-6 md:p-8 rounded shadow-soft border-t-4 border-primary group hover:border-secondary transition-colors">
+                                <h4 class="font-serif text-lg md:text-xl font-bold text-primary mb-1">Basic Quran</h4>
+                                <span class="text-xs font-bold text-secondary uppercase tracking-wider mb-4 block">Nurani Maktab</span>
+                                <p class="text-primary/70 text-sm">Foundation of reading the Holy Quran with proper Tajweed.</p>
+                            </div>
+                            <div class="bg-white p-6 md:p-8 rounded shadow-soft border-t-4 border-primary group hover:border-secondary transition-colors">
+                                <h4 class="font-serif text-lg md:text-xl font-bold text-primary mb-1">Hifjul Quran</h4>
+                                <span class="text-xs font-bold text-secondary uppercase tracking-wider mb-4 block">Memorization</span>
+                                <p class="text-primary/70 text-sm">Rigorous memorization program under expert mentorship.</p>
+                            </div>
+                            <div class="bg-white p-6 md:p-8 rounded shadow-soft border-t-4 border-primary group hover:border-secondary transition-colors">
+                                <h4 class="font-serif text-lg md:text-xl font-bold text-primary mb-1">Kitab Division</h4>
+                                <span class="text-xs font-bold text-secondary uppercase tracking-wider mb-4 block">Classical Texts</span>
+                                <ul class="text-primary/70 text-sm space-y-1 list-disc list-inside marker:text-secondary">
+                                    <li>Mizan</li>
+                                    <li>Nahwe Mir</li>
+                                    <li>Hidayatun Nahw</li>
+                                    <li>Kafiyah</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ADMISSIONS ================= -->
+        <section id="admissions">
+            <div class="py-16 md:py-20 bg-secondary/5">
+                <div class="container mx-auto px-4 sm:px-6">
+                    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row reveal">
+                        <!-- Decorative Side -->
+                        <div class="md:w-1/3 bg-primary p-6 md:p-10 text-cream flex flex-col justify-between relative overflow-hidden min-h-[150px] md:min-h-auto">
+                            <div class="absolute inset-0 bg-pattern-islamic opacity-10"></div>
+                            <div class="relative z-10">
+                                <h3 class="font-serif text-2xl md:text-3xl font-bold mb-2 md:mb-4">Admissions</h3>
+                                <p class="text-secondary text-sm opacity-90">Begin your journey of knowledge.</p>
+                            </div>
+                            <div class="relative z-10 text-5xl md:text-6xl text-secondary opacity-30 mt-4 md:mt-0 self-end md:self-auto">
+                                <i class="fa-solid fa-pen-nib"></i>
+                            </div>
+                        </div>
+
+                        <!-- Form Side -->
+                        <div class="md:w-2/3 p-6 md:p-10">
+                            <h2 class="text-lg md:text-xl font-bold text-primary border-b border-gray-200 pb-4 mb-6">Application Form</h2>
+                            
+                            <form id="admissionForm" class="space-y-4 md:space-y-5">
+                                <input type="hidden" name="access_key" value="88415589-ba8d-4658-aa0e-0adc8e1ac287">
+                                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                                    <div class="space-y-1">
+                                        <label class="text-xs font-bold text-primary uppercase">Full Name</label>
+                                        <input type="text" name="name" required class="w-full border border-gray-300 rounded p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors bg-gray-50 text-primary">
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-xs font-bold text-primary uppercase">Phone</label>
+                                        <input type="tel" name="phone" required class="w-full border border-gray-300 rounded p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors bg-gray-50 text-primary">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                                    <div class="space-y-1">
+                                        <label class="text-xs font-bold text-primary uppercase">Email</label>
+                                        <input type="email" name="email" required class="w-full border border-gray-300 rounded p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors bg-gray-50 text-primary">
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-xs font-bold text-primary uppercase">Previous School</label>
+                                        <input type="text" name="previous_school" class="w-full border border-gray-300 rounded p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors bg-gray-50 text-primary">
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1">
+                                    <label class="text-xs font-bold text-primary uppercase">Address</label>
+                                    <input type="text" name="address" required class="w-full border border-gray-300 rounded p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors bg-gray-50 text-primary">
+                                </div>
+
+                                <!-- Radios -->
+                                <div class="pt-2">
+                                    <label class="text-xs font-bold text-primary uppercase block mb-3">Select Programs (Choose one from each)</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <!-- General Section with Individual Classes -->
+                                        <div class="space-y-2">
+                                            <p class="text-[10px] text-gray-500 font-bold uppercase mb-1">General Section</p>
+                                            <div class="grid grid-cols-2 gap-2">
+                                                <!-- KG -->
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 col-span-2 transition-colors">
+                                                    <input type="radio" name="program_general" value="KG/Nursery" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs font-bold text-primary">KG / Nursery</span>
+                                                </label>
+                                                <!-- Individual Classes -->
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 1" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 1</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 2" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 2</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 3" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 3</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 4" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 4</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 5" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 5</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 6" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 6</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 7" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 7</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 8" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 8</span>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 col-span-2 transition-colors">
+                                                    <input type="radio" name="program_general" value="Class 9" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <span class="text-xs text-primary">Class 9</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-y-2">
+                                            <p class="text-[10px] text-gray-500 font-bold uppercase mb-1">Islamic Section</p>
+                                            <div class="space-y-2">
+                                                <label class="flex items-center cursor-pointer p-3 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_islamic" value="Hifz" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <div>
+                                                        <span class="text-xs font-bold text-primary block">Hifjul Quran</span>
+                                                        <span class="text-[10px] text-gray-500 block">Memorization</span>
+                                                    </div>
+                                                </label>
+                                                <label class="flex items-center cursor-pointer p-3 border rounded hover:bg-gray-50 transition-colors">
+                                                    <input type="radio" name="program_islamic" value="Kitab" class="hidden">
+                                                    <div class="w-4 h-4 rounded-full border border-gray-400 flex items-center justify-center mr-2 flex-shrink-0"><div class="radio-dot w-2 h-2 bg-primary rounded-full transform scale-0 transition-transform"></div></div>
+                                                    <div>
+                                                        <span class="text-xs font-bold text-primary block">Kitab Division</span>
+                                                        <span class="text-[10px] text-gray-500 block">Alim Course</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" id="submitBtn" class="w-full bg-primary text-cream font-bold py-3 rounded shadow-lg hover:bg-secondary hover:text-primary transition-all mt-4">
+                                    Submit Application
+                                </button>
+                            </form>
+
+                            <!-- Success Message -->
+                            <div id="formSuccess" class="hidden text-center py-12">
+                                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-primary">JazakAllah Khair!</h3>
+                                <p class="text-gray-600 mt-2">We have received your application.</p>
+                                <button onclick="resetForm()" class="text-secondary font-bold underline mt-6">Submit Another</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= GALLERY (UPGRADED) ================= -->
+        <section id="gallery">
+            <div class="py-16 md:py-20 bg-white">
+                <div class="container mx-auto px-4 sm:px-6">
+                    
+                    <!-- Header -->
+                    <div class="text-center mb-10 md:mb-12 reveal">
+                        <span class="text-secondary font-bold text-xs uppercase tracking-widest mb-2 block">Our Campus Life</span>
+                        <h2 class="font-serif text-3xl md:text-4xl font-bold text-primary">Glimpses of Heritage</h2>
+                        <div class="w-16 h-1 bg-secondary mx-auto mt-4 rounded-full"></div>
+                    </div>
+
+                    <!-- Filter Buttons -->
+                    <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-10 md:mb-12 reveal delay-100">
+                        <button onclick="filterGallery('all')" class="filter-btn active px-4 md:px-6 py-2 rounded-full border border-primary/10 text-primary font-bold text-xs md:text-sm transition-all hover:bg-primary hover:text-cream bg-primary text-cream" data-filter="all">All</button>
+                        <button onclick="filterGallery('academic')" class="filter-btn px-4 md:px-6 py-2 rounded-full border border-primary/10 text-primary/70 font-bold text-xs md:text-sm transition-all hover:bg-primary hover:text-cream" data-filter="academic">Academic</button>
+                        <button onclick="filterGallery('campus')" class="filter-btn px-4 md:px-6 py-2 rounded-full border border-primary/10 text-primary/70 font-bold text-xs md:text-sm transition-all hover:bg-primary hover:text-cream" data-filter="campus">Campus</button>
+                        <button onclick="filterGallery('life')" class="filter-btn px-4 md:px-6 py-2 rounded-full border border-primary/10 text-primary/70 font-bold text-xs md:text-sm transition-all hover:bg-primary hover:text-cream" data-filter="life">Student Life</button>
+                    </div>
+
+                    <!-- Masonry Grid -->
+                    <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                        
+                        <!-- Item 1 (Academic) -->
+                        <div class="gallery-item academic break-inside-avoid group relative rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 reveal" onclick="openLightbox('https://images.unsplash.com/photo-1585036156171-384164a8c675?w=800&q=80', 'Quranic Studies')">
+                            <img src="https://images.unsplash.com/photo-1585036156171-384164a8c675?w=600&q=80" class="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-700" alt="Quran">
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <span class="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Academic</span>
+                                <h3 class="text-cream font-serif text-xl font-bold">Quranic Studies</h3>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 (Campus) -->
+                        <div class="gallery-item campus break-inside-avoid group relative rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 reveal delay-100" onclick="openLightbox('https://images.unsplash.com/photo-1519817650390-64a93db51149?w=800&q=80', 'Main Architecture')">
+                            <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?w=600&q=80" class="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-700" alt="Architecture">
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <span class="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Campus</span>
+                                <h3 class="text-cream font-serif text-xl font-bold">Main Architecture</h3>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 (Life) -->
+                        <div class="gallery-item life break-inside-avoid group relative rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 reveal delay-200" onclick="openLightbox('https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=800&q=80', 'Student Assembly')">
+                            <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=600&q=80" class="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-700" alt="Students">
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <span class="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Student Life</span>
+                                <h3 class="text-cream font-serif text-xl font-bold">Student Assembly</h3>
+                            </div>
+                        </div>
+
+                        <!-- Item 4 (Academic) -->
+                        <div class="gallery-item academic break-inside-avoid group relative rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 reveal" onclick="openLightbox('https://images.unsplash.com/photo-1596541680516-433b91a74288?w=800&q=80', 'Library Resources')">
+                            <img src="https://images.unsplash.com/photo-1596541680516-433b91a74288?w=600&q=80" class="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-700" alt="Library">
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <span class="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Academic</span>
+                                <h3 class="text-cream font-serif text-xl font-bold">Library Resources</h3>
+                            </div>
+                        </div>
+
+                        <!-- Item 5 (Life) -->
+                        <div class="gallery-item life break-inside-avoid group relative rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 reveal delay-100" onclick="openLightbox('https://images.unsplash.com/photo-1584286595398-a59f21d313f5?w=800&q=80', 'Classroom Discussion')">
+                            <img src="https://images.unsplash.com/photo-1584286595398-a59f21d313f5?w=600&q=80" class="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-700" alt="Classroom">
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <span class="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Student Life</span>
+                                <h3 class="text-cream font-serif text-xl font-bold">Classroom Discussion</h3>
+                            </div>
+                        </div>
+
+                        <!-- Item 6 (Campus) -->
+                        <div class="gallery-item campus break-inside-avoid group relative rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 reveal delay-200" onclick="openLightbox('https://images.unsplash.com/photo-1596627885461-1a3b836427a1?w=800&q=80', 'Prayer Hall')">
+                            <img src="https://images.unsplash.com/photo-1596627885461-1a3b836427a1?w=600&q=80" class="w-full h-auto object-cover transform group-hover:scale-110 transition-transform duration-700" alt="Prayer Hall">
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                <span class="text-secondary text-xs font-bold uppercase tracking-wider mb-1">Campus</span>
+                                <h3 class="text-cream font-serif text-xl font-bold">Prayer Hall</h3>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="fixed inset-0 z-[70] hidden bg-primary/95 backdrop-blur-md flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+            <button onclick="closeLightbox()" class="absolute top-6 right-6 text-cream/70 hover:text-white transition-colors">
+                <i class="fa-solid fa-xmark text-4xl"></i>
+            </button>
+            <div class="max-w-5xl w-full max-h-[90vh] flex flex-col items-center">
+                <img id="lightbox-img" src="" alt="Full View" class="max-h-[70vh] md:max-h-[80vh] w-auto object-contain rounded-lg shadow-2xl mb-4">
+                <p id="lightbox-caption" class="text-cream font-serif text-lg md:text-xl font-bold tracking-wide text-center px-4"></p>
+            </div>
+        </div>
+
+        <!-- ================= CONTACT ================= -->
+        <section id="contact">
+            <div class="py-16 md:py-20 bg-cream">
+                <div class="container mx-auto px-4 sm:px-6">
+                    <div class="text-center mb-10 md:mb-12 reveal">
+                        <h2 class="font-serif text-3xl md:text-4xl font-bold text-primary">Contact Us</h2>
+                    </div>
+                    <div class="grid lg:grid-cols-2 gap-8 md:gap-10">
+                        <div class="space-y-4 md:space-y-6 reveal">
+                            <div class="bg-white p-6 md:p-8 rounded shadow-soft border-l-4 border-primary">
+                                <h3 class="font-bold text-primary text-lg md:text-xl mb-3 md:mb-4"><i class="fa-solid fa-location-dot text-secondary mr-2"></i> Main Campus</h3>
+                                <p class="text-gray-600 text-sm md:text-base">House #50, Road #09, Pc Culture Housing Society,<br>Shakher tek, Adabor, Dhaka-1207</p>
+                                <a href="tel:+8801825694136" class="block mt-2 font-bold text-primary hover:text-secondary text-sm md:text-base">+880 1825-694136</a>
+                            </div>
+                            <div class="bg-white p-6 md:p-8 rounded shadow-soft border-l-4 border-secondary">
+                                <h3 class="font-bold text-primary text-lg md:text-xl mb-3 md:mb-4"><i class="fa-solid fa-map-pin text-secondary mr-2"></i> Satellite Campus</h3>
+                                <p class="text-gray-600 text-sm md:text-base">Road #07, Pc Culture Housing Society,<br>Shakher tek, Adabor, Dhaka-1207</p>
+                                <a href="tel:+8801407959100" class="block mt-2 font-bold text-primary hover:text-secondary text-sm md:text-base">+880 1407-959100</a>
+                            </div>
+                            <!-- Office Hours -->
+                            <div class="bg-white p-6 md:p-8 rounded shadow-soft border-l-4 border-primary">
+                                <h3 class="font-bold text-primary text-lg md:text-xl mb-3 md:mb-4"><i class="fa-solid fa-clock text-secondary mr-2"></i> Office Hours</h3>
+                                <p class="text-gray-600 text-sm md:text-base">Saturday - Thursday</p>
+                                <p class="text-primary font-bold mt-2 text-sm md:text-base">08:00 AM - 09:00 PM</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Maps Container -->
+                        <div class="space-y-6 reveal delay-100">
+                            <!-- Map 1: Main Campus -->
+                            <div class="h-[250px] md:h-[300px] rounded-xl overflow-hidden shadow-lg border-4 border-white relative group">
+                                <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded text-xs font-bold text-primary z-10 shadow-sm uppercase tracking-wider">Main Campus</div>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d813.2566719424705!2d90.3549897272324!3d23.768821772888085!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c13000d76d37%3A0xea9e4ebabd027fc3!2sDarul%20Uloom%20Islamic%20Institute!5e0!3m2!1sen!2sbd!4v1764857744216!5m2!1sen!2sbd" class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                            
+                            <!-- Map 2: Satellite Campus -->
+                            <div class="h-[250px] md:h-[300px] rounded-xl overflow-hidden shadow-lg border-4 border-white relative group">
+                                <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded text-xs font-bold text-secondary z-10 shadow-sm uppercase tracking-wider">Satellite Campus</div>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d228.2135619606429!2d90.35525717783018!3d23.76816099694527!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1764858000056!5m2!1sen!2sbd" class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (Redesigned & Mobile Optimized) -->
+    <footer class="relative bg-primary text-cream pt-16 pb-6 md:pt-24 md:pb-10 border-t border-secondary/20 mt-12 md:mt-16">
+        <!-- CTA Strip -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] md:w-3/4 bg-secondary text-primary rounded-xl shadow-gold-glow p-4 md:px-10 md:py-6 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4">
+            <div class="text-center md:text-left">
+                <h3 class="font-serif text-lg md:text-2xl font-bold leading-tight">Ready to Join Us?</h3>
+                <p class="text-xs md:text-sm font-medium opacity-80 hidden md:block">Start your journey of knowledge today.</p>
+            </div>
+            <button onclick="navigateTo('admissions')" class="px-6 py-2 md:px-8 md:py-3 bg-primary text-cream font-bold text-xs md:text-sm uppercase tracking-widest rounded-lg shadow hover:bg-white hover:text-primary transition-all w-full md:w-auto">
+                Enroll Now
+            </button>
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 mt-6 md:mt-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 lg:gap-8 mb-8 md:mb-16">
+                
+                <!-- Column 1: Brand -->
+                <div class="space-y-4 md:space-y-6 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-3">
+                        <img src="Logo.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain brightness-0 invert" onerror="this.onerror=null; this.src='https://placehold.co/100x100/ffffff/3f2305?text=Logo'">
+                        <div class="text-left">
+                            <h2 class="font-serif text-xl md:text-2xl font-bold leading-none">Darul Ulum</h2>
+                            <span class="text-[10px] uppercase tracking-widest text-secondary opacity-90">Islamic Institute</span>
+                        </div>
+                    </div>
+                    <p class="text-xs md:text-sm text-cream/70 leading-relaxed">
+                        A trusted institution harmonizing religious education with general academic excellence. Nurturing hearts, minds, and character since 2019.
+                    </p>
+                    <div class="flex gap-4 justify-center md:justify-start">
+                        <a href="https://www.facebook.com/mahad30" target="_blank" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center text-secondary hover:bg-secondary hover:text-primary transition-all duration-300 text-sm md:text-base"><i class="fa-brands fa-facebook-f"></i></a>
+                        <!-- WhatsApp Link -->
+                        <a href="https://wa.me/8801825694136" target="_blank" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center text-secondary hover:bg-secondary hover:text-primary transition-all duration-300 text-sm md:text-base"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="#" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/5 flex items-center justify-center text-secondary hover:bg-secondary hover:text-primary transition-all duration-300 text-sm md:text-base"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="text-center md:text-left">
+                    <h3 class="font-serif text-lg md:text-xl font-bold text-secondary mb-3 md:mb-6">Explore</h3>
+                    <ul class="space-y-2 md:space-y-3 text-sm inline-block md:block text-left">
+                        <li><button onclick="navigateTo('home')" class="text-cream/70 hover:text-secondary hover:translate-x-1 transition-all flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-secondary"></i> Home</button></li>
+                        <li><button onclick="navigateTo('about')" class="text-cream/70 hover:text-secondary hover:translate-x-1 transition-all flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-secondary"></i> About Us</button></li>
+                        <li><button onclick="navigateTo('gallery')" class="text-cream/70 hover:text-secondary hover:translate-x-1 transition-all flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-secondary"></i> Our Gallery</button></li>
+                        <li><button onclick="navigateTo('contact')" class="text-cream/70 hover:text-secondary hover:translate-x-1 transition-all flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[10px] text-secondary"></i> Contact</button></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Programs -->
+                <div class="text-center md:text-left">
+                    <h3 class="font-serif text-lg md:text-xl font-bold text-secondary mb-3 md:mb-6">Academics</h3>
+                    <ul class="space-y-2 md:space-y-3 text-sm inline-block md:block text-left">
+                        <li><button onclick="navigateTo('courses')" class="text-cream/70 hover:text-secondary hover:translate-x-1 transition-all flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-[10px] text-secondary"></i> General Studies</button></li>
+                        <li><button onclick="navigateTo('courses')" class="text-cream/70 hover:text-secondary hover:translate-x-1 transition-all flex items-center gap-2"><i class="fa-solid fa-book-quran text-[10px] text-secondary"></i> Hifjul Quran</button></li>
+                        <li><button onclick="navigateTo('courses')" class="text-cream/70 hover:text-secondary hover:translate-x-1 transition-all flex items-center gap-2"><i class="fa-solid fa-scroll text-[10px] text-secondary"></i> Kitab Division</button></li>
+                        <li><button onclick="navigateTo('courses')" class="text-cream/70 hover:text-secondary hover:translate-x-1 transition-all flex items-center gap-2"><i class="fa-solid fa-child-reaching text-[10px] text-secondary"></i> Nursery / KG</button></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact -->
+                <div class="text-center md:text-left">
+                    <h3 class="font-serif text-lg md:text-xl font-bold text-secondary mb-3 md:mb-6">Get in Touch</h3>
+                    <ul class="space-y-3 md:space-y-4 text-sm inline-block md:block text-left">
+                        <li class="flex items-start gap-3 text-cream/70">
+                            <i class="fa-solid fa-location-dot mt-1 text-secondary"></i>
+                            <span class="text-xs md:text-sm">House #50, Road #09, Pc Culture Housing, Adabor, Dhaka-1207</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-cream/70">
+                            <i class="fa-solid fa-phone text-secondary"></i>
+                            <span class="text-xs md:text-sm">+880 1825-694136</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-cream/70">
+                            <i class="fa-solid fa-envelope text-secondary"></i>
+                            <span class="text-xs md:text-sm">admissions@darululum.edu.bd</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-6 md:pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] md:text-xs text-cream/40 text-center md:text-left">
+                <p>&copy; <span id="year"></span> Darul Ulum Islamic Institute. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FAB -->
+    <button onclick="toggleModal()" class="fixed bottom-6 right-6 z-[40] bg-secondary text-primary w-12 h-12 md:w-14 md:h-14 rounded-full shadow-2xl flex items-center justify-center text-xl md:text-2xl hover:scale-110 transition-transform border-2 border-white">
+        <i class="fa-regular fa-envelope"></i>
+    </button>
+
+    <!-- Contact Modal (z-60 to be above header) -->
+    <div id="contactModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-primary/90 backdrop-blur-sm opacity-0 transition-opacity duration-300 p-4">
+        <div class="bg-white rounded-xl shadow-2xl p-6 md:p-8 max-w-sm w-full relative transform scale-95 transition-transform duration-300" id="modalContent">
+            <button onclick="toggleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-primary transition-colors">
+                <i class="fa-solid fa-times text-xl"></i>
+            </button>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-headset text-xl"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-primary mb-2">Need Help?</h3>
+                <p class="text-gray-600 mb-6 text-sm">Our admissions team is available to answer your queries.</p>
+                <button onclick="toggleModal(); navigateTo('contact');" class="w-full bg-primary text-cream font-bold py-3 rounded shadow hover:bg-secondary hover:text-primary transition-colors">
+                    Go to Contact Page
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Logic (Revised)
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = menuBtn.querySelector('i'); // Get icon element
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Toggle Icon class
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+                document.body.style.overflow = '';
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+                document.body.style.overflow = 'hidden'; // Lock background scroll
+            }
+        });
+
+        // Navigation Logic (SPA)
+        function navigateTo(sectionId) {
+            // Close mobile menu
+            mobileMenu.classList.add('hidden');
+            menuIcon.classList.remove('fa-times');
+            menuIcon.classList.add('fa-bars');
+            document.body.style.overflow = '';
+
+            // Hide all sections
+            document.querySelectorAll('section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+
+            // Show target section
+            const target = document.getElementById(sectionId);
+            if(target) {
+                target.classList.add('active');
+                // Instant scroll to top for "page load" feel
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+
+            // Update Nav States (Optional visuals)
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active-link');
+                if(link.getAttribute('onclick').includes(sectionId)) {
+                    link.classList.add('active-link');
+                }
+            });
+        }
+
+        // Gallery Filter Logic
+        function filterGallery(category) {
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-cream');
+                btn.classList.add('text-primary/70');
+                if(btn.dataset.filter === category) {
+                    btn.classList.add('bg-primary', 'text-cream');
+                    btn.classList.remove('text-primary/70');
+                }
+            });
+
+            // Filter items
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if(category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                    // Trigger fade in
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.opacity = '1', 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Lightbox Logic
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        function openLightbox(src, caption) {
+            lightboxImg.src = src;
+            lightboxCaption.textContent = caption;
+            lightbox.classList.remove('hidden');
+            // Fade in
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+            }, 10);
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                lightboxImg.src = '';
+            }, 300);
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Close lightbox on outside click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // Scroll Animation Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.1 }); // Trigger when 10% visible
+
+        // Observe elements
+        function initObservers() {
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+        
+        initObservers();
+
+
+        // Modal Logic
+        const modal = document.getElementById('contactModal');
+        const modalContent = document.getElementById('modalContent');
+
+        function toggleModal() {
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                // Short delay to allow display:block to apply
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.remove('scale-95');
+                    modalContent.classList.add('scale-100');
+                }, 10);
+            } else {
+                modal.classList.add('opacity-0');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) toggleModal();
+        });
+
+        // Form Submission
+        const form = document.getElementById('admissionForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMsg = document.getElementById('formSuccess');
+
+        function resetForm() {
+            successMsg.classList.add('hidden');
+            form.classList.remove('hidden');
+            form.reset();
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Submitting...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            const formData = new FormData(form);
+            const json = JSON.stringify(Object.fromEntries(formData));
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                if (response.status == 200) {
+                    form.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                    // Scroll to success message
+                    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    alert('Submission failed. Please check your connection.');
+                }
+            })
+            .catch(() => alert('Something went wrong. Please try again.'))
+            .finally(() => {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            });
+        });
+    </script>
+</body>
+</html>
